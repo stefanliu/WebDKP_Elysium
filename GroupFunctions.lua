@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------
--- GROUP FUNCTIONS
+-- GROUP FUNCTIONS啊
 ------------------------------------------------------------------------
 -- This file contains methods related to working with the dkp table
 -- and the current group. 

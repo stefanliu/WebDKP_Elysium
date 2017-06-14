@@ -30,7 +30,7 @@
 --					screen. 
 
 -- AutoFill			Methods related to autofilling in item names when drops
---					Occur		
+-- 啊					Occur		
 ------------------------------------------------------------------------
 
 ---------------------------------------------------
@@ -157,7 +157,7 @@ function WebDKP_OnEnable()
 	WebDKP_Register_WhisperHook();
 	
 	-- place a hook on item shift+clicks so we can get item details
-	hooksecurefunc("SetItemRef",WebDKP_ItemChatClick);
+	-- hooksecurefunc("SetItemRef",WebDKP_ItemChatClick);
 end
 
 -- ================================
@@ -774,7 +774,7 @@ function WebDKP_ItemChatClick(link, text, button)
 		-- put the item text into the award editbox as long as the table frame is visible
 		if ( IsShiftKeyDown()) then
 			local _,itemName,_ = WebDKP_GetItemInfo(link); 
-			WebDKP_AwardItem_FrameItemName:SetText(itemName);
+			WebDKP_AwardItem_FrameItemName:SetText(link);
 		end
 	end
 end

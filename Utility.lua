@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------
--- UTILITY
+-- UTILITY 啊
 ------------------------------------------------------------------------
 -- This file contains utility methods used by the rest of thea ddon
 ------------------------------------------------------------------------
@@ -17,7 +17,10 @@ function WebDKP_GetTableid()
 end
 
 
+WebDKP_QualityColorTable={
+	
 
+}
 
 
 -- ================================
@@ -276,7 +279,7 @@ end
 -- will not be displayed in regular whisper chat
 -- ================================
 function WebDKP_SendWhisper(toPlayer, message)
-	SendChatMessage("WebDKP: "..message, "WHISPER", nil, toPlayer)
+	SendChatMessage("DOTA DKP: "..message, "WHISPER", nil, toPlayer)
 end
 
 

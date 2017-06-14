@@ -2,7 +2,7 @@
 -- ANNOUNCMENETS	
 ------------------------------------------------------------------------
 -- Contains methods related to the raid announcemenets in game whenever
--- DKP is awarded. 
+-- DKP is awarded. 啊
 ------------------------------------------------------------------------
 
 
@@ -11,13 +11,13 @@
 -- awards you just need to edit these strings. 
 -- Do display a new line in your message use \n. 
 
-WebDKP_ItemAward =			"WebDKP: $player awarded $item for: $cost dkp.";
+WebDKP_ItemAward =			"DKP提示: $player 获得物品: $item 花费: $cost dkp.";
 
-WebDKP_ItemAwardZeroSum =	"WebDKP: $dkp awarded to all players for ZeroSum";
+WebDKP_ItemAwardZeroSum =	"DKP提示: $dkp awarded to all players for ZeroSum";
 
-WebDKP_DkpAwardAll =		"WebDKP: $dkp dkp given to all players for: $reason.";
+WebDKP_DkpAwardAll =		"DKP提示:  所有人获得:$dkp dkp, 原因:$reason.";
 
-WebDKP_DkpAwardSome =		"WebDKP: $dkp dkp given to the following players: for $reason.";
+WebDKP_DkpAwardSome =		"DKP提示: 以下 $cnt 人获得:$dkp dkp, 原因: $reason.（名单过长会被系统隐藏）";
 
 WebDKP_BidStart =			"WebDKP: Bidding has started on $item! $time " ..
 							"To place a bid whisper ?bid <value> to the master looter."..
@@ -55,7 +55,7 @@ function WebDKP_AnnounceAwardItem(cost, item, player)
 	-- (convert the item to a link)
 	local _,_,link = WebDKP_GetItemInfo(item);
 	local toSay =	string.gsub(WebDKP_ItemAward, "$player", player);
-	toSay =	string.gsub(toSay, "$item", link);
+	toSay =	string.gsub(toSay, "$item", item);
 	toSay =	string.gsub(toSay, "$cost", cost);
 	
 	WebDKP_SendAnnouncement(toSay,tellLocation);
@@ -95,17 +95,25 @@ function WebDKP_AnnounceAward(dkp, reason)
 	
 		local toSay =	string.gsub(WebDKP_DkpAwardSome, "$dkp", dkp);
 		toSay =	string.gsub(toSay, "$reason", reason);
-		WebDKP_SendAnnouncement(toSay,tellLocation);
+		
 		
 		-- now increment through the selected players and announce them
-	
+		local cnt = 0
+		local msg = ""
 		for k, v in pairs(WebDKP_DkpTable) do
 			if ( type(v) == "table" ) then
 				if( v["Selected"] ) then
-					WebDKP_SendAnnouncement(k,tellLocation);
+					cnt = cnt + 1;
+					msg = msg.. k  .. ",";
 				end
 			end
 		end
+		toSay =	string.gsub(toSay, "$cnt", cnt);
+		WebDKP_SendAnnouncement(toSay,tellLocation);
+		if(cnt > 0) then
+			WebDKP_SendAnnouncement(msg,tellLocation);
+		end
+		
 	end
 end
 

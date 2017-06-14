@@ -33,37 +33,58 @@ function WebDKP_WhisperDKP_Event()
 	local trigger = arg1;
 	if ( WebDKP_IsWebDKPWhisper(name, trigger) ) then
 		-- its a valid whisper for us. Now to determine what type of whisper
-		if(string.find(string.lower(trigger), "?dkp")==1 ) then		-- THEY WANT THEIR DKP
+		if(string.find(string.lower(trigger), "dkp")==1 ) then		-- THEY WANT THEIR DKP
 			-- look up this player in our dkp table and see if we can find their information
 			
 			if ( WebDKP_DkpTable[name] == nil ) then
 				-- not in our system, send them message
-				--WebDKP_SendWhisper(name,"You have no DKP history"); 
+				WebDKP_SendWhisper(name,"没有你的DKP记录!"); 
 			else
 				-- they are here, get them their dkp
-				local dkp = WebDKP_DkpTable[name]["dkp_"..tableid];
+				local dkp = WebDKP_DkpTable[name]["dkp_"..1];
 				if( dkp == nil ) then
-					WebDKP_DkpTable[name]["dkp_"..tableid] = 0;
+					WebDKP_DkpTable[name]["dkp_"..1] = 0;
+					dkp = 0;
 				end 
-				local tier = floor((dkp-1)/WebDKP_TierInterval);
-				if(dkp == 0 ) then
-					tier = 0;
-				end
-				--WebDKP_SendWhisper(name,"Current DKP - "..dkp); 
+				local dkp2 = WebDKP_DkpTable[name]["dkp_"..2];
+				if( dkp2 == nil ) then
+					WebDKP_DkpTable[name]["dkp_"..2] = 0;
+					dkp2 = 0;
+				end 
+				WebDKP_SendWhisper(name,"你当前的DKP - BWL: "..dkp..", TAQ:"..dkp2.." （使用 cxdkp+空格+对方昵称，可以查看对方的dkp）。"); 
 				--WebDKP_SendWhisper(name,"Tier - "..tier); 
 			end	
-		elseif(string.find(string.lower(trigger), "?listall")==1 ) then -- THEY WANT _ALL_ THE DKP OF EVERYONE
+		elseif(string.find(string.lower(trigger), "cxdkp")==1 ) then -- THEY WANT _ALL_ THE DKP OF EVERYONE
 			local filter = WebDKP_GetWhisperFiltersFromMessage(trigger);
-			--WebDKP_SendWhisper(name,"DKP List");
-			--WebDKP_SendWhisper(name,"DKP - Tier Name(Class) ");
-			--WebDKP_SendWhisper(name,"==============================");
-			--WebDKP_WhisperSortedList(name,false,filter);
-		elseif(string.find(string.lower(trigger), "?list")==1 ) then  -- THEY WANT THE DKP OF PEOPLE IN THE CURRENT GROUP
-			local filter = WebDKP_GetWhisperFiltersFromMessage(trigger);
-			--WebDKP_SendWhisper(name,"DKP List");
-			--WebDKP_SendWhisper(name,"DKP - Tier Name(Class) ");
-			--WebDKP_SendWhisper(name,"==============================");
-			WebDKP_WhisperSortedList(name,true,filter);
+			local _,tName = strsplit(" ", strtrim(trigger),2);
+			
+			if(tName == nil) then
+				WebDKP_SendWhisper(name,"请输入正确的格式：cxdkp+空格+对方昵称。"); 
+			else
+				local targetName = upperFirstChar(tName);
+				if ( WebDKP_DkpTable[targetName] == nil ) then
+					-- not in our system, send them message
+					WebDKP_SendWhisper(name,"没有找到指定人员：".. targetName .. " 的DKP记录!"); 
+				else
+					-- they are here, get them their dkp
+					local dkp = WebDKP_DkpTable[targetName]["dkp_"..1];
+					if( dkp == nil ) then
+						WebDKP_DkpTable[targetName]["dkp_"..1] = 0;
+						dkp = 0;
+					end 
+					local dkp2 = WebDKP_DkpTable[targetName]["dkp_"..2];
+					if( dkp2 == nil ) then
+						WebDKP_DkpTable[targetName]["dkp_"..2] = 0;
+						dkp2 = 0;
+					end 
+					WebDKP_SendWhisper(name,targetName.." 当前的DKP - BWL: "..dkp..", TAQ: "..dkp2.." （请勿频繁查询以免我被系统禁言）。"); 
+					--WebDKP_SendWhisper(name,"Tier - "..tier); 
+				end	
+				
+			end
+			
+		elseif(string.find(string.lower(trigger), "mydkp")==1 ) then  -- THEY WANT THE DKP OF PEOPLE IN THE CURRENT GROUP
+			WebDKP_SendWhisper(name,"使用：dkp 查询自己的当前dkp,使用：cxdkp+空格+对方昵称 查询指定人员的dkp。"); 
 		elseif(trigger == "?help" ) then		-- THEY WANT HELP / LIST OF COMMANDS
 			--WebDKP_SendWhisper(name,"Available Commands:"); 
 			--WebDKP_SendWhisper(name,"?dkp - Get your current dkp");
@@ -94,7 +115,7 @@ function WebDKP_ChatFrame_OnEvent_Hook()
         end
         -- whisper I am sending
         if ( event == "CHAT_MSG_WHISPER_INFORM" ) then
-            if ( string.find(arg1,"^WebDKP: " ) ) then
+            if ( string.find(arg1,"^DOTA DKP: " ) ) then
                 -- hide whispers that I am sending
                 return
             end
@@ -113,9 +134,9 @@ function WebDKP_IsWebDKPWhisper(name, trigger)
 	if ( string.find(string.lower(trigger), "WebDKP:" ) ) then
 		return false;
 	end
-	if ( string.find(string.lower(trigger), "?dkp" )==1 or
-		 string.find(string.lower(trigger), "?help")==1 or
-		 string.find(string.lower(trigger), "?list")==1
+	if ( string.find(string.lower(trigger), "dkp" )==1 or
+		 string.find(string.lower(trigger), "mydkp")==1 or
+		 string.find(string.lower(trigger), "cxdkp")==1
 		) then
         return true
     end
@@ -230,4 +251,13 @@ function WebDKP_GetWhisperFiltersFromMessage(message)
 		filter["showall"] = false;
 	end
 	return filter;
+end
+
+function upperFirstChar(message)
+	if(message == nil) then
+		return nil
+	else
+		local result = string.upper(string.sub(message,0,1)) .. string.sub(message,2,-1)
+		return result
+	end
 end
