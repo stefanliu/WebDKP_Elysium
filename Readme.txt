@@ -1,62 +1,9 @@
------------------------------------------------
-WEB DKP ADDON
------------------------------------------------
-Created by ZeddZorandor of Stromscale
-
-Description:
-The webdkp addon is used together with the site
-www.webdkp.com to help guild leaders manage thier
-dkp. 
-
-Information recorded by the addon is stored into a log file
-which can then be uploaded by the guild master to the
-website using the SyncTool. 
-
-~~~~~~~~~~~~~~~~~~~~~~
-HOW TO USE:
-~~~~~~~~~~~~~~~~~~~~~~
-
-type \webdkp
-
-For help with the addon, check out the tutorial at:
-http://www.webdkp.com/index.php?view=tutorial
+DOTA工会定制版WebDKP 插件。提示字符串已经写死在代码里，对于其他公会的DKP可能会导致无法正常运行。
+A DKP Addon for World of Warcraft 1.12 fork from WebDKP_Elysium, Specilized for guild DOTA. 
 
 
+1.修复E服装备弹框不能正常弹出的问题。
+2.添加一次查询多个DKP表功能
+3.添加查询其他人员的DKP功能
 
-~~~~~~~~~~~~~~~~~~~~~~
-NEW FEATURES
-~~~~~~~~~~~~~~~~~~~~~~
-- Complete overhaul of the addon from version 1. 
-- GUI interface changed to show a live view of DKP in game
-- Filters can be applied to the table to only show certain classes
-- Seperate tabs are provided for awarding points and awarding items
-- A new SYNC tool that uploads syncs your dkp addon with the website
-  Requires .Net 2.0 Framework:
-  http://www.microsoft.com/downloads/details.aspx?FamilyID=0856EACB-4362-4B0D-8EDD-AAB15C5E04F5&displaylang=en
-
-- Whisper DKP!
-  Other members can now whisper you to have you automattically whisper them back with information
-  (Whispers are hidden from you, so you dont' get bogged down in info)
-
-  Commands that you can be whispered:
-  ?help - sends them a list of commands
-  ?dkp  - sends the person who whispered you their current dkp
-  ?list - Lists the dkp of everyone in your current group
-  ?listall - Lists the dkp of everyone in your dkp table
-
-  The two list commands can have class names append to them to limit them to certain classes. 
-  For example:
-  ?list hunter           - Shows the dkp of all the hunters in the current group
-  ?listall hunter rogue  - Shows the dkp of all the hunters and rogues in the guild
-  
-  
-  
-~~~~~~~~~~~~~~~~~~~~~~
-EXTRA ELYSIUM STUFF
-~~~~~~~~~~~~~~~~~~~~~~
-
-- Slashed most of the whisper functionality because of the agressive spam mute policy present.
-- Added the WebDKP_MouseoverBidStart function for starting an auction by hovering over an item in the loot frame.
-- Added the WebDKP_ApplyGlobalDecay function for applying percentage based decay to everyone's DKP, passed as an argument.
-  For example invoke WebDKP_ApplyGlobalDecay(0.9) to reduce everyone's DKP by 10%. Use with caution.
 
